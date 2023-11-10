@@ -16,6 +16,11 @@ namespace CinemaManager_GCG2.Controllers
         {
             return View(_context.Producers.ToList());
         }
+        public ActionResult ProdsAndTheirMovies()
+        {
+            _context.Movies.ToList();
+            return View(_context.Producers.ToList());
+        }
 
         // GET: ProducersController/Details/5
         public ActionResult Details(int id)
