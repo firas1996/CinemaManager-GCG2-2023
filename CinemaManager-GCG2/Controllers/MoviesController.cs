@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CinemaManager_GCG2.Models.Cinema;
+using CinemaManager_GCG2.Models.ViewModels;
 
 namespace CinemaManager_GCG2.Controllers
 {
@@ -28,6 +29,22 @@ namespace CinemaManager_GCG2.Controllers
         {
             var cinemaDbGcg2Context = _context.Movies.Include(m => m.Producer);
             return View(await cinemaDbGcg2Context.ToListAsync());
+        }
+        public IActionResult MoviesAndTheirProds_UsingModel()
+        {
+            //var movies =_context.
+            var querry = from movie in _context.Movies.ToList()
+                         join
+            producer in _context.Producers.ToList() on
+            movie.ProducerId equals producer.Id
+                         select new ProdMovie
+                         {
+                             mTitle = movie.Title,
+                             mGenre = movie.Gnre,
+                             pName = producer.Name,
+                             pNat = producer.Nationality
+                         };
+            return View(querry.ToList());
         }
 
         // GET: Movies/Details/5
