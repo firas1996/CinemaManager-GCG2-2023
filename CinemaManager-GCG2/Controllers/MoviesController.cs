@@ -30,6 +30,45 @@ namespace CinemaManager_GCG2.Controllers
             var cinemaDbGcg2Context = _context.Movies.Include(m => m.Producer);
             return View(await cinemaDbGcg2Context.ToListAsync());
         }
+
+        public IActionResult SearchByTitle(string title)
+        {
+            var movies = _context.Movies.ToList();
+            if(String.IsNullOrEmpty(title)) return View(movies);
+            var s = _context.Movies.Where(x => x.Title.Contains(title)).ToList();
+            return View(s);
+        }
+        public IActionResult SearchByCritaire(string crit, string val)
+        {
+            List<Movie> s;
+            var movies = _context.Movies.ToList();
+            if (String.IsNullOrEmpty(val)) return View(movies);
+            if(crit == "Title")
+            {
+                s = _context.Movies.Where(x => x.Title.Contains(val)).ToList();
+            }
+            else
+            {
+                s = _context.Movies.Where(x => x.Gnre.Contains(val)).ToList();
+
+            }
+            return View(s);
+        }
+
+        public IActionResult SearchBy2(string genre, string title)
+        {
+            var movies = _context.Movies.AsQueryable();
+            ViewBag.Genres = movies.Select(m => m.Gnre).Distinct().ToList();
+            if(genre != "All")
+            {
+                movies = movies.Where(x => x.Gnre == genre);
+            }
+            if (!String.IsNullOrEmpty(title))
+            {
+                movies = movies.Where(x => x.Title.Contains(title));
+            }
+            return View(movies.ToList());
+        }
         public IActionResult MoviesAndTheirProds_UsingModel()
         {
             //var movies =_context.
@@ -46,6 +85,8 @@ namespace CinemaManager_GCG2.Controllers
                          };
             return View(querry.ToList());
         }
+
+
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)

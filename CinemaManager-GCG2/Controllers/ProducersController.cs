@@ -38,6 +38,13 @@ namespace CinemaManager_GCG2.Controllers
                          };
             return View(querry.ToList());
         }
+        public IActionResult MyMovies(int id)
+        {
+            var movies = _context.Movies.ToList();
+            var querry = from m in movies where m.ProducerId == id select m;
+            var querry2 = _context.Movies.Where(m => m.ProducerId == id);
+            return View(querry.ToList());
+        }
 
         // GET: ProducersController/Details/5
         public ActionResult Details(int id)

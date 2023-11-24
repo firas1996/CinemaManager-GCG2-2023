@@ -1,14 +1,24 @@
 ﻿@model IEnumerable<CinemaManager_GCG2.Models.Cinema.Movie>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "SearchBy2";
 }
 
-<h1>Index</h1>
-
+<h1>SearchBy2</h1>
+<form action="SearchBy2" method="get">
+    <label>Genre:</label>
+    <select name="genre">
+        <option value="All">All</option>
+        @foreach (var item in ViewBag.Genres)
+        {
+            <option value=@item>@item</option>
+        }
+    </select>
+    <input name="title" />
+    <input type="submit" value="Search" />
+</form>
 <p>
     <a asp-action="Create">Create New</a>
-    <a asp-action="SearchByTitle">SearchByTitle</a>
 </p>
 <table class="table">
     <thead>
